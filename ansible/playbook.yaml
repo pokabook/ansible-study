@@ -1,0 +1,23 @@
+- name: nginx install and start
+  hosts: all
+  gather_facts: true
+  become: true
+
+  tasks:
+    - name: nginx install init
+      run_once: true
+      shell: |
+        sudo amazon-linux-extras install nginx1 -y
+    - name: nginx start
+      service:
+        name: nginx
+    - name: init index page
+      get_url:
+        url: https://raw.githubusercontent.com/nginx/nginx/master/docs/html/50x.html
+        dest: /usr/share/nginx/html/index.html
+      register: result_init_index
+    - name: restart_nginx
+      service:
+        name: nginx
+        state: restarted
+      register: result_restart_nginx

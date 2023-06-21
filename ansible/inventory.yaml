@@ -1,0 +1,5 @@
+all:
+  hosts:
+    3.39.245.218:
+  vars:
+    ansible_user: "ec2-user"
